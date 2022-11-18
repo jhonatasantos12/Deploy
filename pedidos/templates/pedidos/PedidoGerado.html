@@ -1,0 +1,92 @@
+{%extends 'base.html'%}
+{%block 'titulo'%}Lista de Produts.{%endblock%}
+{%block 'conteudo'%}
+<div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="box" style="width:auto">
+                <table class="table table-hover">
+                    <thead>
+                        <th scope="col">Id</td>
+                        <th scope="col">Cliente</td>
+                        <th scope="col">Telefone</td>
+                        <th scope="col">Data</td>
+                        <th scope="col">Status</td>
+                        {% if  IsAlternable  %}
+                            <th scope="col">Button</th>
+                        {% else %}
+                        {% endif %}
+                        <tr>
+                            <td scope="row">{{ Pedido.id }}</td>   
+                            <td>{{ Pedido.Cliente.nome }}</td>
+                            <td>{{ Pedido.Cliente.PhoneNumber}}</td>
+                            <td>{{ Pedido.data_registro }}</td>
+                            
+                                {% if  IsAlternable  %}
+                                    <td>
+                                        <form id ="form" action="{{ Pedido.id }}" method="post" >
+                                            {% csrf_token %}
+                                            <select name="newStatus"id = "newStatus">
+                                                <option value ="{{ Pedido.Status.id }}">{{ Pedido.Status.description }} </option>
+                                                {% for status in Categoria %}
+                                                    {% if status == Pedido.Status.description %}
+                                                    {%else%}
+                                                        <option value ="{{status.id}}">{{status.description}}</option>
+                                                    {%endif%}
+                                                {% endfor %}
+                                
+                                            </select>
+                                    </td>
+                                        <td>
+                                            <button type="submit"   class="buttonC" >
+                                                Confirmar alteração
+                                            </button>
+                                        </td>
+                                    </form>
+                                {% else %}
+                                    <td>{{ Pedido.Status.description }}</td>
+                                {% endif %} 
+                        </tr>
+                    </thead>
+                </table>
+                
+                <div> 
+                    <div  style = "color:black;text-align: left;float:left;">
+                        produto
+                    </div>
+                    <div style ="color:black;text-align: right;">
+                        qtd
+                    </div>
+                </div>
+                
+                 
+                
+                {% for produto in ProdutosPedido %}
+                    <div style="border-radius: 10px;border: 1px solid black; background-color: rgb(194, 194, 212);">
+                        <div style ="color:black;text-align: left;float:left;">
+                            &nbsp;&nbsp;{{ produto.produto.nome}}
+                        </div>
+                        <div style ="color:black;text-align: right;">
+                            {{produto.quantidade}}&nbsp;&nbsp;
+                        </div>
+                         
+                    </div>
+                    <br/>
+                {% endfor %}
+                {% if Pedido.Atendente %}
+                    Esse pedido foi realizado pelo usuario : {{ Pedido.Atendente.usuario }}
+                {% endif %}
+                <br>
+                <span>
+                    esse pedido é uma : 
+                    {% if Pedido.tp_Pedido == 1 %}
+                        Venda
+                    {%else%}
+                        Locação
+                    {%endif%}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

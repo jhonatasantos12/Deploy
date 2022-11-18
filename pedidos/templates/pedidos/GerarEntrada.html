@@ -1,0 +1,42 @@
+{%extends 'base.html'%}
+
+{%block 'titulo'%}Gerar Entrada{%endblock%}
+{%block 'conteudo'%}
+<div class="Pcontainer">
+    <div class="row g-6">
+        <div style="width:auto" class="form-group box">
+            <div> 
+                <div>
+                    <form id ="form" action="{% url 'GerarEntrada' %}" method="post">
+                        <input type="hidden"  type="text" name="user" value="{{user}}">
+                        {% csrf_token %}
+                        <table class="form-group table table-hover">
+                            <thead>
+                                
+                                <th scope="col">produto</th>
+                                <th scope="col">Qtd Em estoque</th>
+                                {% for product in Estoque %}
+                                <tr>
+                                    <td scope="row">{{ product.produto.nome }}</td>
+                                    <td>{{product.quantidade}}</td>
+                                    <td>
+                                        <div>
+                                            <button type="button" class="btn btn-primary" onclick="diminuiValor('{{product.produto.id }}')">-</button>
+                                            <input value="0" maxlength ="{{product.quantidade}}" style="width:40px;height:40px;" type="number"name="{{product.produto.id}}" id="{{product.produto.id}}" onkeypress="return onlynumber()" >
+                                            <button  type="button" class="btn btn-primary" onclick="aumentaValor('{{product.produto.id }}')">+</button>
+                                        </div>
+                                    </td>
+                                </tr>        
+                                {% endfor %}
+                            </thead>
+                        </table>
+                        <label for="description"class="col-md-6 col-form-label text-md-right"> Descrição</label>
+                        <input id="description" name="description"class="form-control justify-content:center col-md-2"type="text" minlength="10" maxlength="500" required>
+                        <button type="submit"  class="buttonC" >Confirmar Entrada</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

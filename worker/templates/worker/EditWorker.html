@@ -1,0 +1,29 @@
+{%extends 'base.html'%}
+{%block 'titulo'%}Editar Funcionario{%endblock%}
+{%block 'conteudo'%}
+<div class="Pcontainer">
+    <div class="row g-6">
+        <div class="box">
+            <form action="{{ resultado.id }}" method="post">{% csrf_token %}
+                <div class="form-group row">
+                    <label for="cpf" class="col-md-6 col-form-label text-md-right">CPF</label>
+                    <input maxlength="11" value = "{{ resultado.cpf }}" type="text" id="cpf" class="form-control justify-content:center col-md-2" name="cpf" class="width:300px" onkeypress="return onlycpf();"required>
+                    
+                </div>
+                <div class="form-group row">
+                    <label for="PhoneNumber" class="col-md-6 col-form-label text-md-right">Telefone</label>
+                    <input value ="{{ resultado.PhoneNumber }}"type="text"  id="PhoneNumber" class="form-control justify-content:center col-md-2" name="PhoneNumber" class="width:300px" required>
+                    
+                </div>
+                <div class="form-group row">
+                    <label for="office" class="col-md-6 col-form-label text-md-right">Cargo</label>
+                    <input value ="{{ resultado.office }}" type="text" id="office" class="form-control justify-content:center col-md-2" name="office" class="width:300px" required>
+                    
+                </div>
+                <div class="form-group row">
+                    <button href="../ListWorkers" type="submit" class="buttonC">Cadastrar</button>
+                </div>
+                </form>
+    </div>
+</div>
+{%endblock%}

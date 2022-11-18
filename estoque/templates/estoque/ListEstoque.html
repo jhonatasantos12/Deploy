@@ -1,0 +1,64 @@
+{%extends 'base.html'%}
+{%block 'titulo'%}Lista de Produts.{%endblock%}
+{%block 'conteudo'%}
+<main class="login-form">
+    <div class="cotainer">
+        <div class="row justify-content-center Pcontainer">
+            <div class="col-md-8">
+                <div class="box" style="width:auto">
+                    <table class="table table-hover">
+                        <thead>
+                            <th scope="col">Id</td>
+                            <th scope="col">Name</td>
+                            <th scope="col">quantidade</td>
+                            <th scope="col">min</th>
+                            <th scope="col">max</th>
+                            <th scope="col">Button</th>
+                            {% for Product in Estoque %}
+                            <tr>
+                                <td scope="row">{{ Product.id }}</td>
+                                <td>{{ Product.produto.nome }}</td>
+                                <td>{{ Product.quantidade }}</td>
+                                {% if Product.min_prod %}
+                                    <td>{{Product.min_prod}}</td>
+                                {%else%}
+                                    <td>N/A</td>
+                                {% endif %}
+                                {% if Product.max_prod %}
+                                    <td>{{Product.max_prod}}</td>
+                                {%else%}
+                                    <td>N/A</td>
+                                {% endif %}
+                                {% if Product.max_prod or Product.min_prod%}
+                                    <td><a href="./limite/{{Product.id}}"  class="buttonC">Editar</a></td>
+                                {%else%}
+                                    <td><a href="./limite/{{Product.id}}"  class="buttonC">Criar</a></td>
+                                {%endif%}
+                            </tr>
+                            {% endfor %}
+                        
+                        </thead>
+                
+                    </table>
+                    <nav aria-label="Navegação de página exemplo">
+                        <ul class="pagination">
+                            {% for pagina in Estoque.paginator.page_range %}
+                                {% if  Estoque.number == pagina %}
+                                <li class="page-item active">
+                                    <a class="page-link" href="?estoque={{pagina}}">{{pagina}}</a>
+                                </li>
+                                {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?estoque={{pagina}}">{{pagina}}</a>
+                                </li>
+                                {%endif%}
+                            {% endfor %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</main>
+{%endblock%}

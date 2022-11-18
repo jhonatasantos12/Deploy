@@ -1,0 +1,44 @@
+{%extends 'base.html'%}
+{%block 'titulo'%}Lista de Produts.{%endblock%}
+{%block 'conteudo'%}
+<div>
+    <div class="row justify-content-center Pcontainer">
+        <div class="col-md-8">
+            <div class="box" style="width:auto">
+                <table class="table table-hover">
+                    <thead>
+                        <th scope="col">Id</td>
+                        <th scope="col">Data</td>
+                        <th scope="col">Usuario</td>
+                        <th scope="col"></td>                            
+                        {% for pedido in pedidosEntrada %}
+                        <tr>
+                            <td scope="row">{{ pedido.id }}</td>
+                            <td>{{ pedido.data_registro }}</td>
+                            <td>{{ pedido.Atendente.usuario }}</td>
+                            <td><a href="Detalhes/{{ pedido.id }}"><button  class="buttonC">Ver</button></td></a>
+                        </tr>
+                        {% endfor %}
+                    
+                    </thead>
+                </table>
+                <nav aria-label="Navegação de página exemplo">
+                    <ul class="pagination">
+                        {% for pagina in pedidosEntrada.paginator.page_range %}
+                            {% if  pedidosEntrada.number == pagina %}
+                            <li class="page-item active">
+                                <a class="page-link" href="?pedidos={{pagina}}">{{pagina}}</a>
+                            </li>
+                            {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="?pedidos={{pagina}}">{{pagina}}</a>
+                            </li>
+                            {%endif%}
+                        {% endfor %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}
