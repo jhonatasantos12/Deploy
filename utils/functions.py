@@ -9,7 +9,7 @@ def validate_cpf(cpf):
     for i in range(len(cpf)):
         sum += int(cpf[i])
 
-    if sum == 33 or sum == 44 or sum == 55:
+    if sum == 33 or sum == 44 or sum == 55 or sum == 66:
         return True
     else:
         return False 

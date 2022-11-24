@@ -117,14 +117,12 @@ def opcoes(request):
             return render(request,'pedidos/opcoes.html')
     return render(request,'pedidos/opcoes.html',context={"alert" :alert})
 
-@login_required(redirect_field_name='register')
 def GerarPedido(request):
-    Estoque =EstoqueModel.Estoque.objects.exclude(quantidade=0)
     if request.method !='POST':
         return render(request,'pedidos/GerarPedido.html',
         context={
             "Customers": CustomerModel.Customer.objects.all(),
-            "Estoque":Estoque ,
+            "Estoque":EstoqueModel.Estoque.objects.exclude(quantidade=0) ,
         })
     cliente = request.POST.get('cliente')
     user = request.POST.get('user')
@@ -134,6 +132,7 @@ def GerarPedido(request):
         ProdPedido= {}
         ProdPedido['Produtos'] ={}
         ProdPedido['Cliente'] =  cliente
+        Estoque = EstoqueModel.Estoque.objects.exclude(quantidade=0)
         for x in Estoque:
             try:
                 produto = request.POST.get(str(x.produto.id))
@@ -144,7 +143,7 @@ def GerarPedido(request):
                 return render (request,'pedidos/GerarPedido.html',
                     context={
                         "Customers": CustomerModel.Customer.objects.all(),
-                        "Estoque": Estoque,
+                        "Estoque": EstoqueModel.Estoque.objects.exclude(quantidade=0),
                         "Customer":CustomerModel.Customer.objects.get(id = cliente),
                         "alert":alert
                         })  
@@ -159,7 +158,7 @@ def GerarPedido(request):
                     return render (request,'pedidos/GerarPedido.html',
                     context={
                         "Customers": CustomerModel.Customer.objects.all(),
-                        "Estoque": Estoque,
+                        "Estoque": EstoqueModel.Estoque.objects.exclude(quantidade=0),
                         "Customer":CustomerModel.Customer.objects.get(id = cliente),
                         "alert":alert
                         })
@@ -179,7 +178,7 @@ def GerarPedido(request):
                 return render (request,'pedidos/GerarPedido.html',
                 context={
                     "Customers": CustomerModel.Customer.objects.all(),
-                    "Estoque": Estoque,
+                    "Estoque": EstoqueModel.Estoque.objects.exclude(quantidade=0),
                     "Customer":CustomerModel.Customer.objects.get(id = cliente),
                     "alert":alert
                     })
@@ -201,20 +200,20 @@ def GerarPedido(request):
             context={
                 "alert":alert,
                 "Customers": CustomerModel.Customer.objects.all(),
-                "Estoque": Estoque,
+                "Estoque": EstoqueModel.Estoque.objects.exclude(quantidade=0),
                 "Customer":CustomerModel.Customer.objects.get(id = cliente)
             })
         return render (request,'pedidos/GerarPedido.html',
             context={
                 "Customers": CustomerModel.Customer.objects.all(),
-                "Estoque": Estoque,
+                "Estoque": EstoqueModel.Estoque.objects.exclude(quantidade=0),
                 "Customer":CustomerModel.Customer.objects.get(id = cliente)
             })
         
     return render (request,'pedidos/GerarPedido.html',
      context={
             "Customers": CustomerModel.Customer.objects.all(),
-            "Estoque": Estoque,  
+            "Estoque": EstoqueModel.Estoque.objects.exclude(quantidade=0),  
         })
 
 def GerarEntrada(request):
@@ -285,7 +284,7 @@ def GerarEntrada(request):
 
 def listaEntrada(request):
     pedidosEntrada = PedidosModel.PedidoEntrada.objects.all().order_by('-data_registro')
-    paginator = Paginator(pedidosEntrada,10)
+    paginator = Paginator(pedidosEntrada,8)
     page = request.GET.get("pedidos")
     pedidosEntrada = paginator.get_page(page)
     return render(request,'pedidos/ListaEntradas.html',

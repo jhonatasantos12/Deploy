@@ -12,19 +12,14 @@ def AddProduct(request):
     if request.method != 'POST':
         return render(request,'product/AddProduct.html')
     nome = request.POST.get('product')
-    valor = request.POST.get('value')
-    if not nome or not valor:
+    if not nome:
         alert = functions.Alerts.alertError("Erro","Todos os campos devem ser preenchidos")
         return render(request,'product/AddProduct.html',context={"alert": alert} )
 
     if Product.objects.filter(nome= nome).exists():
         alert = functions.Alerts.alertError("Erro","Esse produto já está cadastrado")
         return render(request,'product/AddProduct.html',context={"alert": alert} )
-    valorint = float(valor)
-    if valorint < 0:
-        alert = functions.Alerts.alertError("Erro","valor do produto deve ser maior que zero")
-        return render(request,'product/AddProduct.html',context={"alert": alert} )
-    product = Product.objects.create(nome=nome,valor=valor)
+    product = Product.objects.create(nome=nome)
     product.save()
     estoque = EstoqueModel.Estoque.objects.create(produto = product, quantidade = 0)
     estoque.save()
