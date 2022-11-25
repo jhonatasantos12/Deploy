@@ -1,4 +1,3 @@
-from attr import validate
 from django.http import  JsonResponse
 from django.shortcuts import render
 from .models import Customer
